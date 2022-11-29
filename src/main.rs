@@ -19,7 +19,7 @@ use tracing_subscriber::{EnvFilter, Registry};
 
 #[tokio::main]
 async fn main() {
-    if sudo::check() == sudo::RunningAs::Root {
+    if cfg!(unix) && sudo::check() == sudo::RunningAs::Root {
         println!("Dura cannot be used as root");
         process::exit(1);
     }
