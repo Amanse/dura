@@ -19,6 +19,10 @@ use tracing_subscriber::{EnvFilter, Registry};
 
 #[tokio::main]
 async fn main() {
+    if sudo::check() == sudo::RunningAs::Root {
+        println!("Dura cannot be used as root");
+        process::exit(1);
+    }
     let cwd = std::env::current_dir().expect("Failed to get current directory");
 
     let suffix = option_env!("DURA_VERSION_SUFFIX")
